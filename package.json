@@ -1,0 +1,28 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "a project for the web developer bootcamp course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OmarNabil005/yelpcamp.git"
+  },
+  "author": "Omar Nabil",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OmarNabil005/yelpcamp/issues"
+  },
+  "homepage": "https://github.com/OmarNabil005/yelpcamp#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
+    "express": "^4.19.2",
+    "joi": "^17.13.3",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.6.0"
+  }
+}

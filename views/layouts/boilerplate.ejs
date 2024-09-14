@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boilerplate</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../styles/links.css" />
+</head>
+
+<body class="d-flex flex-column vh-100">
+    <%- include('../partials/nav.ejs') %>
+        <main class="container mt-5">
+            <%- body %>
+        </main>
+        <%- include('../partials/footer.ejs') %>
+
+            <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
