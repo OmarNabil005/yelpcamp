@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
     <div class="container">
         <div class="row">
-            <div class="col-4 offset-4">
+            <div class="col-6">
                 <div class="card">
                     <img src="<%= campground.image %>" alt="campground image">
                     <div class="card-body">
@@ -27,6 +27,58 @@
                         </form>
                     </div>
                 </div>
+            </div>
+            <div class="col-6">
+                <form action="/campgrounds/<%=campground._id%>/reviews" method="post" class="needs-validation"
+                    novalidate>
+                    <h3>Leave a Review</h3>
+                    <div class="input-group my-3">
+                        <input type="text" class="form-control" placeholder="Author" aria-label="Author"
+                            aria-describedby="basic-addon2" name="review[author]">
+                    </div>
+                    <div class="mb-1 col-6">
+                        <label for="customRange3" class="form-label">Rating</label>
+                        <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange3"
+                            name="review[rating]" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <textarea class="form-control" name="review[text]" cols="30" rows="3"
+                            placeholder="Write your review"></textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+                <% if (campground.reviews.length> 0) { %>
+                    <h3>Reviews</h3>
+                    <% } %>
+                        <% for (let review of campground.reviews) { %>
+                            <div class="card mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        Rating: <%= review.rating %>
+                                    </li>
+                                    <% if (review.text) { %>
+                                        <li class="list-group-item">
+                                            Review: <%= review.text %>
+                                        </li>
+                                        <% } %>
+
+                                            <% if (review.author) { %>
+                                                <li class="list-group-item">
+                                                    Author: <%= review.author %>
+                                                </li>
+                                                <% } %>
+                                </ul>
+                                <div class="card-footer">
+                                    <form class="card-link d-inline"
+                                        action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE"
+                                        method="POST">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <% } %>
             </div>
         </div>
     </div>
