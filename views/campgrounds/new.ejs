@@ -1,19 +1,67 @@
 <% layout('layouts/boilerplate') %>
     <div class="container">
         <div class="row">
-            <div class="col-4">
-                <form action="/campgrounds" method="POST">
+            <div class="col-6 offset-3">
+                <h1 class="text-center">New Campground</h1>
+                <form action="/campgrounds" method="POST" class="needs-validation" novalidate>
                     <div class="input-group mb-3">
-                        <input type="text" id="title" name="campground[title]" class="form-control"
-                            placeholder="campground title" aria-label="campground title">
+                        <input type="text" id="title" name="campground[title]" class="form-control" placeholder="Title"
+                            aria-label="campground title" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please provide a valid title.
+                        </div>
                     </div>
 
                     <div class="input-group mb-3">
                         <input type="text" id="location" name="campground[location]" class="form-control"
-                            placeholder="campground location" aria-label="campground location">
+                            placeholder="Location" aria-label="campground location" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please provide a valid location.
+                        </div>
                     </div>
-                    <button class="btn btn-secondary">Add Campground</button>
+
+                    <div class="input-group mb-3">
+                        <input type="url" id="image" name="campground[image]" class="form-control"
+                            placeholder="Image's URL" aria-label="campground image" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please provide a valid image URL.
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input type="number" id="price" name="campground[price]" class="form-control"
+                            placeholder="Price" aria-label="campground price" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please provide a valid price.
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <textarea type="text" name="campground[description]" id="description" class="form-control"
+                            placeholder="Description" aria-label="campground description" required></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please provide a valid description.
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary" type="submit">Add Campground</button>
                 </form>
             </div>
         </div>
     </div>
+    <%- include('../partials/form validation.ejs') %>
