@@ -7,7 +7,6 @@ const validateCampground = (req, res, next) => {
         const msg = error.details.map(el => el.message).join(',');
         throw new ExpressError(msg, 400);
     }
-    console.log(req.body);
     next();
 }
 

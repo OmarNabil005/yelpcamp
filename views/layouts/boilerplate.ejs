@@ -12,11 +12,12 @@
 <body class="d-flex flex-column vh-100">
     <%- include('../partials/nav.ejs') %>
         <main class="container mt-5">
-            <%- body %>
+            <%- include('../partials/flash.ejs') %>
+                <%- body %>
         </main>
         <%- include('../partials/footer.ejs') %>
 
-            <script src="js/bootstrap.bundle.min.js"></script>
+            <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
