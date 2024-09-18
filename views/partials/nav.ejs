@@ -18,5 +18,19 @@
                 </li>
             </ul>
         </div>
+        <% if (!currentUser) { %>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/login">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/register">Sign Up</a>
+                </li>
+            </ul>
+            <% } else { %>
+                <form action="/user/logout" method="post">
+                    <button class="btn btn-danger" type="submit">Log Out</button>
+                </form>
+                <% } %>
     </div>
 </nav>

@@ -3,11 +3,18 @@ const app = express();
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
+const session = require('express-session');
+const flash = require('connect-flash');
+const passport = require('passport');
+const localStrategy = require('passport-local');
 const mongoose = require('mongoose');
-const Campground = require('./models/campground');
-const catchAsync = require('./utilities/catchAsync');
+const catchAsync = require('./utilities/middleware/catchAsync');
 const ExpressError = require('./utilities/expressError');
-const validateCampground = require('./utilities/validateCampground');
+const isLoggedIn = require('./utilities/middleware/isLoggedIn');
+const User = require('./models/user');
+const campgrounds = require('./routes/campgrounds');
+const reviews = require('./routes/reviews');
+const users = require('./routes/users');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp');
 const db = mongoose.connection;
@@ -26,45 +33,37 @@ app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use(express.static('public'));
 
+const sessionConfig = {
+    secret: 'abadsecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+    }
+}
+app.use(session(sessionConfig));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
+app.use('/user', users);
+app.use('/campgrounds', campgrounds);
+app.use('/campgrounds/:id/reviews', isLoggedIn, reviews);
+
 app.get('/', catchAsync(async (req, res) => {
     res.render("home");
-}));
-
-app.get('/campgrounds', catchAsync(async (req, res) => {
-    const campgrounds = await Campground.find({});
-    res.render('campgrounds/all', { campgrounds });
-}));
-
-app.get('/campgrounds/new', (req, res) => {
-    res.render('campgrounds/new');
-});
-
-app.post('/campgrounds', validateCampground, catchAsync(async (req, res) => {
-    const campground = new Campground(req.body.campground);
-    await campground.save();
-    res.redirect(`/campgrounds/${campground._id}`)
-}));
-
-app.get('/campgrounds/:id', catchAsync(async (req, res,) => {
-    const campground = await Campground.findById(req.params.id)
-    res.render('campgrounds/show', { campground });
-}));
-
-app.get('/campgrounds/:id/edit', catchAsync(async (req, res,) => {
-    const campground = await Campground.findById(req.params.id)
-    res.render('campgrounds/edit', { campground });
-}));
-
-app.put('/campgrounds/:id', validateCampground, catchAsync(async (req, res,) => {
-    const { id } = req.params;
-    await Campground.findByIdAndUpdate(id, req.body.campground);
-    res.redirect(`/campgrounds/${id}`);
-}));
-
-app.delete('/campgrounds/:id', catchAsync(async (req, res,) => {
-    const { id } = req.params;
-    await Campground.findByIdAndDelete(id);
-    res.redirect(`/campgrounds`);
 }));
 
 app.all('*', (req, res, next) => {
