@@ -1,5 +1,5 @@
-const { reviewSchema } = require('./Schemas')
-const ExpressError = require('./expressError');
+const { reviewSchema } = require('../Schemas')
+const ExpressError = require('../expressError');
 
 const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);

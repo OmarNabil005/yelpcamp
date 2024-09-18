@@ -1,4 +1,4 @@
-const Campground = require('../models/campground');
+const Campground = require('../../models/campground');
 const catchAsync = require('./catchAsync');
 
 const isCampgroundAuthor = (catchAsync(async (req, res, next) => {

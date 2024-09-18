@@ -1,4 +1,4 @@
-const Review = require('../models/review');
+const Review = require('../../models/review');
 const catchAsync = require('./catchAsync');
 
 const isReviewAuthor = (catchAsync(async (req, res, next) => {
