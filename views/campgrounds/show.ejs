@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+    <link rel="stylesheet" href="/styles/starability.css">
     <div class="container">
         <div class="row">
             <div class="col-6">
@@ -36,12 +37,23 @@
                 <form action="/campgrounds/<%=campground._id%>/reviews" method="post" class="needs-validation"
                     novalidate>
                     <h3>Leave a Review</h3>
-                    <div class="mb-1 col-6">
-                        <label for="customRange3" class="form-label">Rating</label>
-                        <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange3"
-                            name="review[rating]" required>
-                    </div>
-                    <div class="input-group mb-3">
+                    <fieldset class="starability-basic">
+                        <legend>First rating:</legend>
+                        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" checked value="0"
+                            aria-label="No rating." />
+                        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                        <label for="first-rate1" title="Terrible">1 star</label>
+                        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                        <label for="first-rate2" title="Not good">2 stars</label>
+                        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                        <label for="first-rate3" title="Average">3 stars</label>
+                        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                        <label for="first-rate4" title="Very good">4 stars</label>
+                        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                        <label for="first-rate5" title="Amazing">5 stars</label>
+                    </fieldset>
+
+                    <div class="input-group my-3">
                         <textarea class="form-control" name="review[text]" cols="30" rows="3"
                             placeholder="Write your review" required></textarea>
                         <div class="valid-feedback">
@@ -62,7 +74,9 @@
                             <div class="card mb-3">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        Rating: <%= review.rating %>
+                                        <p class="starability-result" data-rating="<%= review.rating %>">
+                                            Rated: <%= review.rating %> stars
+                                        </p>
                                     </li>
                                     <li class="list-group-item">
                                         Review: <%= review.text %>
