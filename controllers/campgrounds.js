@@ -1,4 +1,7 @@
 const Campground = require('../models/campground');
+const { cloudinary } = require('../cloudinary/index');
+const maptilerClient = require("@maptiler/client");
+maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
 module.exports.index = async (req, res) => {
     const campgrounds = await Campground.find({});
@@ -24,7 +27,10 @@ module.exports.renderCampground = async (req, res) => {
 };
 
 module.exports.createCampground = async (req, res) => {
+    const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
     const campground = new Campground({ ...req.body.campground, author: req.user._id });
+    campground.geometry = geoData.features[0].geometry;
+    campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     await campground.save();
     req.flash('success', 'Successfully made a campground');
     res.redirect(`/campgrounds/${campground._id}`)
@@ -40,9 +46,20 @@ module.exports.renderEditCampground = async (req, res,) => {
 };
 
 module.exports.editCampground = async (req, res,) => {
-    await Campground.findByIdAndUpdate(req.params.id, req.body.campground);
+    const campground = await Campground.findByIdAndUpdate(req.params.id, req.body.campground);
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    campground.images.push(...imgs);
+    const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
+    campground.geometry = geoData.features[0].geometry;
+    await campground.save();
+    if (req.body.deleteImages) {
+        for (let img of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(img)
+        }
+        await campground.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+    }
     req.flash('success', 'Successfully Updated a campground');
-    res.redirect(`/campgrounds/${id}`);
+    res.redirect(`/campgrounds/${req.params.id}`);
 };
 
 module.exports.deleteCampground = async (req, res) => {
@@ -50,3 +67,4 @@ module.exports.deleteCampground = async (req, res) => {
     req.flash('success', 'Successfully deleted a campground');
     res.redirect(`/campgrounds`);
 };
+

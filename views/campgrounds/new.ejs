@@ -3,7 +3,8 @@
         <div class="row">
             <div class="col-6 offset-3">
                 <h1 class="text-center">New Campground</h1>
-                <form action="/campgrounds" method="POST" class="needs-validation" novalidate>
+                <form action="/campgrounds" method="POST" class="needs-validation" novalidate
+                    enctype="multipart/form-data">
                     <div class="input-group mb-3">
                         <input type="text" id="title" name="campground[title]" class="form-control" placeholder="Title"
                             aria-label="campground title" required>
@@ -27,17 +28,6 @@
                     </div>
 
                     <div class="input-group mb-3">
-                        <input type="url" id="image" name="campground[image]" class="form-control"
-                            placeholder="Image's URL" aria-label="campground image" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                        <div class="invalid-feedback">
-                            Please provide a valid image URL.
-                        </div>
-                    </div>
-
-                    <div class="input-group mb-3">
                         <input type="number" id="price" name="campground[price]" class="form-control"
                             placeholder="Price" aria-label="campground price" required>
                         <div class="valid-feedback">
@@ -56,6 +46,17 @@
                         </div>
                         <div class="invalid-feedback">
                             Please provide a valid description.
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input type="file" multiple="multiple" name="campground[images]" class="form-control"
+                            id="campgroundImages" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please provide an image.
                         </div>
                     </div>
 
