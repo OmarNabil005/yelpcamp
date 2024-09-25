@@ -1,3 +1,45 @@
-<% layout('layouts/boilerplate') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YelpCamp</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../styles/app.css" />
+    <link rel="stylesheet" href="../styles/home.css" />
+</head>
+<body>
+    <nav id="nav" class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+          <span class="navbar-brand">YelpCamp</span>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="navbar-text active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-text" href="/campgrounds">Campgrounds</a>
+              </li>
+            </ul>
+            <% if (!currentUser) { %>
+            <a class="navbar-text user" href="/user/login">Login</a>
+            <a class="navbar-text user" href="/user/register">Signup</a>
+            <% } else { %>
+                <form action="/user/logout" method="post">
+                    <button type="submit"><a class="navbar-text user">Log Out</a></button>
+                </form>
+            <% } %>
+          </div>
+        </div>
+      </nav>
+      <div class="container-fluid d-flex flex-column text-center align-items-center justify-content-center h-75">
+        <h1>Welcome to YelpCamp!</h1>
+        <h4>Watch beautiful campgrounds and access their location easily<br>Or create your own!</h4>
+      </div>
 
-    <h1>HOME! YELP CAMP!</h1>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,8 +1,8 @@
     maptilersdk.config.apiKey = maptilerApiKey;
     const map = new maptilersdk.Map({
-        container: 'map',
-        zoom: 0.3,
-        center: [0, 20],
+        container: 'cluster-map',
+        zoom: 2,
+        center: [-112.315721, 34.6100243],
         style: maptilersdk.MapStyle.DATAVIZ.DARK
     });
 
@@ -120,3 +120,5 @@
           map.getCanvas().style.cursor = '';
         });
       });
+      
+      map.addControl(new maptilersdk.navigationControl());

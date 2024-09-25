@@ -5,11 +5,13 @@ maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
 module.exports.index = async (req, res) => {
     const campgrounds = await Campground.find({});
-    res.render('campgrounds/all', { campgrounds });
+    const title = "All Campgrounds"
+    res.render('campgrounds/all', { campgrounds , title});
 };
 
 module.exports.renderNewForm = (req, res) => {
-    res.render('campgrounds/new');
+    const title = "Create Campground"
+    res.render('campgrounds/new', { title});
 };
 
 module.exports.renderCampground = async (req, res) => {
@@ -23,7 +25,8 @@ module.exports.renderCampground = async (req, res) => {
         req.flash('error', `couldn't find campground`);
         return res.redirect('/campgrounds');
     }
-    res.render('campgrounds/show', { campground });
+    const title = campground.title
+    res.render('campgrounds/show', { campground, title });
 };
 
 module.exports.createCampground = async (req, res) => {
@@ -42,7 +45,8 @@ module.exports.renderEditCampground = async (req, res,) => {
         req.flash('error', `couldn't find campground`);
         return res.redirect('/campgrounds');
     }
-    res.render('campgrounds/edit', { campground });
+    const title = `Edit ${campground.title}`
+    res.render('campgrounds/edit', { campground, title });
 };
 
 module.exports.editCampground = async (req, res,) => {

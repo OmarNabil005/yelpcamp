@@ -4,19 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boilerplate</title>
+    <title><%= title %></title>
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../styles/links.css" />
+    <link rel="stylesheet" href="../styles/app.css" />
 </head>
 
-<body class="d-flex flex-column vh-100">
+<body class="d-flex flex-column">
     <%- include('../partials/nav.ejs') %>
-    <main class="container mt-5">
+    <main class="container py-3 h-100">
         <%- include('../partials/flash.ejs') %>
         <%- body %>
     </main>
     <%- include('../partials/footer.ejs') %>
     
+    <script> 
+        if (document.body.clientHeight < window.innerHeight) {
+        document.body.classList.add('vh-100');
+    }
+    </script>
     <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 
