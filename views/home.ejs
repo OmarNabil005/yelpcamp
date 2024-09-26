@@ -17,21 +17,25 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
+              <li class="nav-item my-1">
                 <a class="navbar-text active" aria-current="page" href="/">Home</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item my-1">
                 <a class="navbar-text" href="/campgrounds">Campgrounds</a>
               </li>
             </ul>
             <% if (!currentUser) { %>
-            <a class="navbar-text user" href="/user/login">Login</a>
-            <a class="navbar-text user" href="/user/register">Signup</a>
-            <% } else { %>
-                <form action="/user/logout" method="post">
-                    <button type="submit"><a class="navbar-text user">Log Out</a></button>
-                </form>
-            <% } %>
+            <div class="my-1">
+              <a class="navbar-text" href="/user/login">Login</a>
+              <a class="navbar-text" href="/user/register">Signup</a>
+            </div>
+          <% } else { %>
+            <div class="my-1">
+              <form action="/user/logout" method="post">
+                <button type="submit"><a class="navbar-text">Log Out</a></button>
+              </form>
+            </div>
+              <% } %>
           </div>
         </div>
       </nav>

@@ -3,7 +3,7 @@
     <link crossorigin="anonymous" href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
     <div class="container">
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-6 mb-4">
                 <div class="card">
                     <div id="campgroundCarousel" class="carousel slide">
                         <div class="carousel-inner">
@@ -54,7 +54,7 @@
                         <% } %>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <div id='map' crossorigin="anonymous"></div>
                 <form action="/campgrounds/<%=campground._id%>/reviews" method="post" class="needs-validation mt-3"
                     novalidate>
