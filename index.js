@@ -74,7 +74,7 @@ app.use(
 app.use(methodOverride('_method'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const secret = process.env.SECRET || "ASFB@!$RASGt1412raFAWRQ#@Rawr4";
 
