@@ -6,10 +6,10 @@ const isLoggedIn = require('../utilities/middleware/isLoggedIn');
 const isCampgroundAuthor = require('../utilities/middleware/isCampgroundAuthor');
 const campgrounds = require('../controllers/campgrounds');
 const { storage } = require('../cloudinary/index');
-const multer = require('multer')
-const upload = multer({ storage })
+const multer = require('multer');
+const upload = multer({ storage });
 
-
+router.route('/')
     .get(catchAsync(campgrounds.index))
     .post(isLoggedIn, upload.array('campground[images]'), validateCampground, catchAsync(campgrounds.createCampground));
 
