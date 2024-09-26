@@ -1,10 +1,31 @@
 <% layout('layouts/boilerplate') %>
     <link rel="stylesheet" href="/styles/starability.css">
+    <link crossorigin="anonymous" href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
     <div class="container">
         <div class="row">
             <div class="col-6">
                 <div class="card">
-                    <img src="<%= campground.image %>" alt="campground image">
+                    <div id="campgroundCarousel" class="carousel slide">
+                        <div class="carousel-inner">
+                            <% campground.images.forEach((img, i)=> { %>
+                                <div class="carousel-item<%= (i === 0) ? " active": "" %>">
+                                    <img src="<%= img.url %>" class="d-block w-100" alt="campground image" crossorigin="anonymous">
+                                </div>
+                                <% }); %>
+                        </div>
+                        <% if (campground.images.length> 1) { %>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                            <% } %>
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">
                             <%= campground.title %>
@@ -34,7 +55,8 @@
                 </div>
             </div>
             <div class="col-6">
-                <form action="/campgrounds/<%=campground._id%>/reviews" method="post" class="needs-validation"
+                <div id='map' crossorigin="anonymous"></div>
+                <form action="/campgrounds/<%=campground._id%>/reviews" method="post" class="needs-validation mt-3"
                     novalidate>
                     <h3>Leave a Review</h3>
                     <fieldset class="starability-basic">
@@ -102,3 +124,8 @@
         </div>
     </div>
     <script src="/scripts/validateForms.js"></script>
+    <script>const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
+    const campground = <%- JSON.stringify(campground) %>
+    </script>
+  <script crossorigin="anonymous" src="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.umd.min.js"></script>
+  <script src="/scripts/maptiler.js"></script>
