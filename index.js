@@ -19,8 +19,12 @@ const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/reviews');
 const users = require('./routes/users');
 const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+const mongoStore = require('connect-mongo');
+// const dbUrl = process.env.DB_URL;
+const dbUrl = 'mongodb://localhost:27017/yelp-camp';
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp');
+mongoose.connect(dbUrl);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -35,17 +39,65 @@ app.use(express.json());
 app.use(mongoSanitize({
     replaceWith: '_',
   }));
+app.use(helmet());
+
+const scriptSrcUrls = [
+    "https://cdn.maptiler.com/",
+];
+const styleSrcUrls = [
+    "https://cdn.maptiler.com/",
+];
+const connectSrcUrls = [
+    "https://api.maptiler.com/", 
+];
+const fontSrcUrls = [];
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/dxbyeoe2t/",
+                "https://api.maptiler.com/",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
+
 app.use(methodOverride('_method'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use(express.static('public'));
 
+const store = mongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'thisshouldbeabettersecret!'
+    }
+});
+
+store.on("error", function(e) {
+    console.log("Session Store Error!", e)
+})
+
 const sessionConfig = {
+    store,
+    name: 'session',
     secret: 'abadsecret',
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        // secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7,
     }

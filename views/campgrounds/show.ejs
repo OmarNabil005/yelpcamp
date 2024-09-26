@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate') %>
     <link rel="stylesheet" href="/styles/starability.css">
-    <link href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
+    <link crossorigin="anonymous" href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
     <div class="container">
         <div class="row">
             <div class="col-6">
@@ -9,7 +9,7 @@
                         <div class="carousel-inner">
                             <% campground.images.forEach((img, i)=> { %>
                                 <div class="carousel-item<%= (i === 0) ? " active": "" %>">
-                                    <img src="<%= img.url %>" class="d-block w-100" alt="campground image">
+                                    <img src="<%= img.url %>" class="d-block w-100" alt="campground image" crossorigin="anonymous">
                                 </div>
                                 <% }); %>
                         </div>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="col-6">
-                <div id='map'></div>
+                <div id='map' crossorigin="anonymous"></div>
                 <form action="/campgrounds/<%=campground._id%>/reviews" method="post" class="needs-validation mt-3"
                     novalidate>
                     <h3>Leave a Review</h3>
@@ -127,5 +127,5 @@
     <script>const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
     const campground = <%- JSON.stringify(campground) %>
     </script>
-  <script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.umd.min.js"></script>
+  <script crossorigin="anonymous" src="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.umd.min.js"></script>
   <script src="/scripts/maptiler.js"></script>

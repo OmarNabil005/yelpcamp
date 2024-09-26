@@ -1,8 +1,7 @@
 const User = require('../models/user');
 
 module.exports.renderRegisterForm = (req, res) => {
-    const title = "Register";
-    res.render('users/register', { title });
+    res.render('users/register');
 };
 
 module.exports.createUser = async (req, res) => {
@@ -23,8 +22,7 @@ module.exports.createUser = async (req, res) => {
 };
 
 module.exports.renderLoginForm = (req, res) => {
-    const title = "Login";
-    res.render('users/login', { title });
+    res.render('users/login');
 };
 
 module.exports.loginUser = async (req, res) => {

@@ -1,13 +1,13 @@
 <% layout('layouts/boilerplate') %>
-<link href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
-<div id="cluster-map"></div>
+<link crossorigin="anonymous" href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
+<div id="cluster-map" crossorigin="anonymous"></div>
 
     <h1 class="mt-3">All Campgrounds</h1>
     <div class="container">
         <% for( let campground of campgrounds ) { %>
             <div class="row mb-3">
                 <div class="col-4">
-                    <img src="<% if (campground.images[0]) { %><%= campground.images[0].url %> <% } %>"
+                    <img crossorigin="anonymous" src="<% if (campground.images[0]) { %><%= campground.images[0].url %> <% } %>"
                         alt="campground image" class="w-100 h-100">
                 </div>
                 <div class="col-4">
@@ -31,5 +31,5 @@
     </div>
 <script>const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
     const allCampgrounds = {features: <%- JSON.stringify(campgrounds) %>}</script>
-<script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.umd.js"></script>
+<script crossorigin="anonymous" src="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.umd.js"></script>
 <script src="/scripts/clusterMap.js"></script>
