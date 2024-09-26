@@ -21,8 +21,7 @@ const users = require('./routes/users');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const mongoStore = require('connect-mongo');
-// const dbUrl = process.env.DB_URL;
-const dbUrl = 'mongodb://localhost:27017/yelp-camp';
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
 
 mongoose.connect(dbUrl);
 const db = mongoose.connection;
@@ -77,11 +76,13 @@ app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use(express.static('public'));
 
+const secret = process.env.SECRET || "ASFB@!$RASGt1412raFAWRQ#@Rawr4";
+
 const store = mongoStore.create({
     mongoUrl: dbUrl,
     touchAfter: 24 * 60 * 60,
     crypto: {
-        secret: 'thisshouldbeabettersecret!'
+        secret,
     }
 });
 
@@ -92,7 +93,7 @@ store.on("error", function(e) {
 const sessionConfig = {
     store,
     name: 'session',
-    secret: 'abadsecret',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -135,6 +136,7 @@ app.use((err, req, res, next) => {
     res.status(err.statusCode).render('error', { err });
 });
 
-app.listen(3000, () => {
-    console.log("Listening on port 3000");
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
 });
