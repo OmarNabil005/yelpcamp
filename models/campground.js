@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Review = require('./review');
 const User = require('./user');
-const { campgroundSchema } = require('../utilities/Schemas');
 const Schema = mongoose.Schema;
 
 const ImageSchema = new Schema({
@@ -70,6 +69,6 @@ CampgroundSchema.post('findOneAndDelete', async (campground) => {
             }
         })
     }
-})
+});
 
 module.exports = mongoose.model('Campground', CampgroundSchema);
