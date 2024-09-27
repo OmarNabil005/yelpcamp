@@ -45,7 +45,3 @@ You need to set up the following environment variables in a `.env` file:
   npm start
 ```
 This will launch the application, and you can now explore the YelpCamp features.
-
----
-
-This makes it easy for users to both view the live project and run it locally.
